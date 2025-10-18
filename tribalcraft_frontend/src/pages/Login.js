@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import toast from 'react-hot-toast';
 import { useAuth } from '../context/AuthContext';
 import './Login.css';
 
@@ -34,10 +35,10 @@ const Login = () => {
       });
       
       login(response.data.token, response.data.user);
-      alert('Login successful! Welcome to TribalCraft.');
+      toast.success('Login successful! Welcome to TribalCraft.');
       navigate('/');
     } catch (error) {
-      alert(error.response?.data?.message || 'Login failed');
+      toast.error(error.response?.data?.message || 'Login failed');
     }
   };
 

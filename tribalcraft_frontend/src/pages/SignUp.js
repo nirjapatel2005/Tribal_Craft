@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import toast from 'react-hot-toast';
+import { useAuth } from '../context/AuthContext';
 import './SignUp.css';
 
 const SignUp = () => {
@@ -23,25 +25,29 @@ const SignUp = () => {
   };
 
   const navigate = useNavigate();
+  const { login } = useAuth();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (formData.password !== formData.confirmPassword) {
-      alert('Passwords do not match!');
+      toast.error('Passwords do not match!');
       return;
     }
 
     try {
-      await axios.post('http://localhost:5000/api/auth/signup', {
+      const response = await axios.post('http://localhost:5000/api/auth/signup', {
         username: formData.username,
         email: formData.email,
         phone: formData.phone,
         password: formData.password
       });
-      alert('Sign up successful! Please login to continue.');
-      navigate('/login');
+      
+      // Automatically log in the user after successful signup
+      login(response.data.token, response.data.user);
+      toast.success('Sign up successful! You are now logged in.');
+      navigate('/');
     } catch (error) {
-      alert(error.response?.data?.message || 'Sign up failed');
+      toast.error(error.response?.data?.message || 'Sign up failed');
     }
   };
 

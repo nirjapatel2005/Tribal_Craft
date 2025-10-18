@@ -2,6 +2,7 @@ import React from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import axios from 'axios';
+import toast from 'react-hot-toast';
 import './ProductDetails.css';
 
 const ProductDetails = () => {
@@ -27,13 +28,17 @@ const ProductDetails = () => {
         craftTitle: craft.title,
         craftPrice: craft.price,
         craftImage: imageUrl
+      }, {
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+        }
       });
       
-      alert('Item added to cart!');
+      toast.success('Item added to cart!');
       navigate('/cart');
     } catch (error) {
       console.error('Add to cart error:', error);
-      alert('Error adding item to cart: ' + (error.response?.data?.message || error.message));
+      toast.error('Error adding item to cart: ' + (error.response?.data?.message || error.message));
     }
   };
   

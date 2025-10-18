@@ -1,7 +1,7 @@
 .admin-dashboard {
   min-height: 100vh;
   padding: 2rem;
-  background-color: #f8f9fa;
+  background: linear-gradient(135deg, #f5f7fa 0%, #e9eff5 100%);
 }
 
 .admin-container {
@@ -17,9 +17,33 @@
 }
 
 .admin-container h2 {
-  color: #666;
+  color: #5a5a5a;
   margin-bottom: 2rem;
   text-align: center;
+}
+
+.admin-tabs {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin: 1rem 0 2rem;
+}
+
+.admin-tab {
+  padding: 0.7rem 1.4rem;
+  border: 2px solid #8B4513;
+  background: white;
+  color: #8B4513;
+  border-radius: 999px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.admin-tab.active {
+  background: linear-gradient(135deg, #8b4513, #a0522d);
+  color: white;
+  box-shadow: 0 6px 16px rgba(139,69,19,0.25);
 }
 
 .loading {
@@ -36,16 +60,17 @@
 
 .craft-card {
   background: white;
-  border-radius: 10px;
-  padding: 1.5rem;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  border-radius: 16px;
+  padding: 1.25rem;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+  border: 1px solid rgba(139,69,19,0.08);
 }
 
 .craft-image {
   width: 100%;
   height: 200px;
   object-fit: cover;
-  border-radius: 8px;
+  border-radius: 12px;
   margin-bottom: 1rem;
 }
 
@@ -73,28 +98,64 @@
 .approve-btn, .reject-btn {
   padding: 0.75rem 1.5rem;
   border: none;
-  border-radius: 5px;
+  border-radius: 8px;
   font-weight: bold;
   cursor: pointer;
-  transition: background-color 0.3s;
+  transition: transform 0.15s ease, box-shadow 0.2s ease, background-color 0.3s ease;
 }
 
 .approve-btn {
-  background-color: #28a745;
+  background: linear-gradient(135deg, #22c55e, #16a34a);
   color: white;
 }
 
 .approve-btn:hover {
-  background-color: #218838;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(34,197,94,0.35);
 }
 
 .reject-btn {
-  background-color: #dc3545;
+  background: linear-gradient(135deg, #ef4444, #dc2626);
   color: white;
 }
 
 .reject-btn:hover {
-  background-color: #c82333;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(239,68,68,0.35);
+}
+
+.orders-table-wrapper {
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+  border: 1px solid rgba(139,69,19,0.08);
+  overflow: hidden;
+}
+
+.orders-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.orders-table thead {
+  background: linear-gradient(135deg, rgba(139, 69, 19, 0.95), rgba(160, 82, 45, 0.9));
+  color: white;
+}
+
+.orders-table th, .orders-table td {
+  padding: 0.9rem 1rem;
+  text-align: left;
+  border-bottom: 1px solid #eee;
+}
+
+.orders-table tbody tr:hover {
+  background: #faf8f6;
+}
+
+.orders-table select {
+  padding: 0.4rem 0.6rem;
+  border: 2px solid #ddd;
+  border-radius: 8px;
 }
 
 @media (max-width: 768px) {

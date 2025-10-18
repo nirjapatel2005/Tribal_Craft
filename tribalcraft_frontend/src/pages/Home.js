@@ -109,7 +109,7 @@ const Home = () => {
     };
 
     fetchApprovedCrafts();
-  }, []);
+  }, [tribalCrafts.length]);
 
   // Combine static and approved crafts
   const allCrafts = [...tribalCrafts, ...approvedCrafts];

@@ -56,6 +56,23 @@
   text-shadow: 0 0 8px rgba(255, 215, 0, 0.5);
 }
 
+.logout-btn {
+  background: none;
+  border: none;
+  color: #fff;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s;
+  cursor: pointer;
+  font-size: inherit;
+  font-family: inherit;
+}
+
+.logout-btn:hover {
+  color: #FFD700;
+  text-shadow: 0 0 8px rgba(255, 215, 0, 0.5);
+}
+
 /* Add padding to body to prevent content hiding behind fixed navbar */
 body {
   padding-top: 80px;
