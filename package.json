@@ -5,12 +5,12 @@
   "main": "index.js",
   "scripts": {
     "prebuild": "echo 'Checking directory structure...' && ls -la",
-    "install-all": "npm install --prefix tribalcraft-backend && npm install --prefix tribalcraft-frontend",
-    "build": "npm install --prefix tribalcraft-frontend && npm run build --prefix tribalcraft-frontend",
-    "start": "npm start --prefix tribalcraft-backend",
-    "dev": "concurrently \"npm run dev --prefix tribalcraft-backend\" \"npm start --prefix tribalcraft-frontend\"",
-    "build-backend": "npm install --prefix tribalcraft-backend",
-    "build-frontend": "npm install --prefix tribalcraft-frontend && npm run build --prefix tribalcraft-frontend",
+    "install-all": "npm install --prefix tribalcraft_backend && npm install --prefix tribalcraft_frontend",
+    "build": "npm install --prefix tribalcraft_frontend && npm run build --prefix tribalcraft_frontend",
+    "start": "npm start --prefix tribalcraft_backend",
+    "dev": "concurrently \"npm run dev --prefix tribalcraft_backend\" \"npm start --prefix tribalcraft_frontend\"",
+    "build-backend": "npm install --prefix tribalcraft_backend",
+    "build-frontend": "npm install --prefix tribalcraft_frontend && npm run build --prefix tribalcraft_frontend",
     "postbuild": "echo 'Build completed successfully!'"
   },
   "keywords": [

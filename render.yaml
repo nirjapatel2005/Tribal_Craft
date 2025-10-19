@@ -21,7 +21,7 @@ services:
     name: tribal-craft-frontend
     env: static
     buildCommand: npm run build-frontend
-    staticPublishPath: ./tribalcraft-frontend/build
+    staticPublishPath: ./tribalcraft_frontend/build
     routes:
       - type: rewrite
         source: /*
