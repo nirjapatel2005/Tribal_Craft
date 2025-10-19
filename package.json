@@ -4,12 +4,14 @@
   "description": "A full-stack e-commerce platform for traditional Indian tribal crafts",
   "main": "index.js",
   "scripts": {
-    "install-all": "cd tribalcraft-backend && npm install && cd ../tribalcraft-frontend && npm install",
-    "build": "cd tribalcraft-frontend && npm run build",
-    "start": "cd tribalcraft-backend && npm start",
-    "dev": "concurrently \"cd tribalcraft-backend && npm run dev\" \"cd tribalcraft-frontend && npm start\"",
-    "build-backend": "cd tribalcraft-backend && npm install",
-    "build-frontend": "cd tribalcraft-frontend && npm install && npm run build"
+    "prebuild": "echo 'Checking directory structure...' && ls -la",
+    "install-all": "npm install --prefix tribalcraft-backend && npm install --prefix tribalcraft-frontend",
+    "build": "npm install --prefix tribalcraft-frontend && npm run build --prefix tribalcraft-frontend",
+    "start": "npm start --prefix tribalcraft-backend",
+    "dev": "concurrently \"npm run dev --prefix tribalcraft-backend\" \"npm start --prefix tribalcraft-frontend\"",
+    "build-backend": "npm install --prefix tribalcraft-backend",
+    "build-frontend": "npm install --prefix tribalcraft-frontend && npm run build --prefix tribalcraft-frontend",
+    "postbuild": "echo 'Build completed successfully!'"
   },
   "keywords": [
     "tribal",
