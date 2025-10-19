@@ -1,0 +1,31 @@
+{
+  "name": "tribal-craft",
+  "version": "1.0.0",
+  "description": "A full-stack e-commerce platform for traditional Indian tribal crafts",
+  "main": "index.js",
+  "scripts": {
+    "install-all": "cd tribalcraft-backend && npm install && cd ../tribalcraft-frontend && npm install",
+    "build": "cd tribalcraft-frontend && npm run build",
+    "start": "cd tribalcraft-backend && npm start",
+    "dev": "concurrently \"cd tribalcraft-backend && npm run dev\" \"cd tribalcraft-frontend && npm start\"",
+    "build-backend": "cd tribalcraft-backend && npm install",
+    "build-frontend": "cd tribalcraft-frontend && npm install && npm run build"
+  },
+  "keywords": [
+    "tribal",
+    "crafts",
+    "e-commerce",
+    "react",
+    "nodejs",
+    "mongodb"
+  ],
+  "author": "nirjapatel2005",
+  "license": "ISC",
+  "devDependencies": {
+    "concurrently": "^7.6.0"
+  },
+  "engines": {
+    "node": ">=14.0.0",
+    "npm": ">=6.0.0"
+  }
+}

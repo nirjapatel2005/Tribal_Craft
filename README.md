@@ -105,6 +105,31 @@ Tribal_Craft/
 - MongoDB (local installation or MongoDB Atlas)
 - npm or yarn package manager
 
+## 🚀 Deployment
+
+### Render.com Deployment
+
+1. **Connect your GitHub repository to Render**
+2. **Create two web services:**
+   - **Backend Service:**
+     - Build Command: `npm run build-backend`
+     - Start Command: `npm start`
+     - Environment: `Node`
+   - **Frontend Service:**
+     - Build Command: `npm run build-frontend`
+     - Publish Directory: `tribalcraft-frontend/build`
+     - Environment: `Static Site`
+
+3. **Environment Variables for Backend:**
+   ```
+   NODE_ENV=production
+   PORT=10000
+   MONGODB_URI=your_mongodb_connection_string
+   JWT_SECRET=your_jwt_secret_key
+   ```
+
+### Local Development Setup
+
 ### Backend Setup
 
 1. **Navigate to backend directory**
