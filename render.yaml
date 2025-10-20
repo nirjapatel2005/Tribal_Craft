@@ -3,7 +3,7 @@ services:
     name: tribal-craft-backend
     env: node
     plan: free
-    buildCommand: npm run build-backend
+    buildCommand: npm install && npm run build-backend
     startCommand: npm start
     envVars:
       - key: NODE_ENV
@@ -20,8 +20,8 @@ services:
   - type: web
     name: tribal-craft-frontend
     env: static
-    buildCommand: npm run build-frontend
-    staticPublishPath: ./tribalcraft_frontend/build
+    buildCommand: npm install && npm run build-frontend
+    staticPublishPath: ./tribalcraft-frontend/build
     routes:
       - type: rewrite
         source: /*
