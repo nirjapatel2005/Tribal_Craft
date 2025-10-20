@@ -30,7 +30,8 @@ app.get('/', (req, res) => {
 });
 
 // Catch-all handler: send back React's index.html file for any non-API routes
-app.get('/*', (req, res) => {
+// Use a RegExp to avoid path-to-regexp parsing issues in Express 5
+app.get(/^\/(?!api).*/, (req, res) => {
   res.sendFile(path.join(__dirname, '../tribalcraft_frontend/build', 'index.html'));
 });
 
