@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const dotenv = require('dotenv');
+const path = require('path');
 
 dotenv.config();
 
@@ -19,6 +20,19 @@ app.use('/api/auth', require('./routes/auth'));
 app.use('/api/crafts', require('./routes/crafts'));
 app.use('/api/cart', require('./routes/cart'));
 app.use('/api/checkout', require('./routes/checkout'));
+
+// Serve static files from the React app build directory
+app.use(express.static(path.join(__dirname, '../tribalcraft_frontend/build')));
+
+// Root route - serve the React app
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, '../tribalcraft_frontend/build', 'index.html'));
+});
+
+// Catch-all handler: send back React's index.html file for any non-API routes
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../tribalcraft_frontend/build', 'index.html'));
+});
 
 // MongoDB Connection
 const mongoURI = process.env.MONGODB_URI || 'mongodb://localhost:27017/tribalcraft';
