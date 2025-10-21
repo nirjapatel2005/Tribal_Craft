@@ -12,10 +12,12 @@ const Contact = () => {
           <div className="contact-info">
             <h3>Reach Out</h3>
             <div className="contact-item">
-              <strong>Email:</strong> info@tribalcraft.com
+              <strong>Email:</strong> info@tribal-craft.onrender.com
+
+
             </div>
             <div className="contact-item">
-              <strong>Phone:</strong> +1 (555) 123-4567
+              <strong>Phone:</strong> +91 xxxxxxxxxx
             </div>
             <div className="contact-item">
               <strong>Address:</strong> 123 Craft Street, Art District, City 12345
