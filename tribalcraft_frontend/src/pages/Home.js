@@ -93,13 +93,13 @@ const Home = () => {
   useEffect(() => {
     const fetchApprovedCrafts = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/crafts/approved');
+        const response = await axios.get('/api/crafts/approved');
         const craftsWithIds = response.data.map((craft, index) => ({
           id: tribalCrafts.length + index + 1,
           title: craft.itemName,
           region: craft.region,
           description: craft.description,
-          image: `http://localhost:5000${craft.imageUrl}`,
+          image: craft.imageUrl,
           price: craft.price
         }));
         setApprovedCrafts(craftsWithIds);

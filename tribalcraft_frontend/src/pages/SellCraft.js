@@ -70,7 +70,7 @@ const SellCraft = () => {
       // Append image
       formDataToSend.append('image', image);
 
-      const response = await axios.post('http://localhost:5000/api/crafts/sell', formDataToSend, {
+      const response = await axios.post('/api/crafts/sell', formDataToSend, {
         headers: {
           'Content-Type': 'multipart/form-data',
           'Authorization': `Bearer ${localStorage.getItem('token')}`

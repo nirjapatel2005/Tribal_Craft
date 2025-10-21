@@ -22,7 +22,7 @@ const OrderDetails = () => {
 
   const fetchOrder = async () => {
     try {
-      const response = await axios.get(`http://localhost:5000/api/checkout/orders/${orderId}`, {
+      const response = await axios.get(`/api/checkout/orders/${orderId}`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
         },

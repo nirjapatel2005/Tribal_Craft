@@ -21,7 +21,7 @@ const Orders = () => {
 
   const fetchOrders = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/checkout/orders', {
+      const response = await axios.get('/api/checkout/orders', {
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`
         }
@@ -147,7 +147,7 @@ const Orders = () => {
 
   async function handleCancelOrder(orderId) {
     try {
-      await axios.put(`http://localhost:5000/api/checkout/orders/${orderId}/cancel`, {}, {
+      await axios.put(`/api/checkout/orders/${orderId}/cancel`, {}, {
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`
         }

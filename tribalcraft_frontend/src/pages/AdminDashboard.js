@@ -22,7 +22,7 @@ const AdminDashboard = () => {
 
   const fetchPendingCrafts = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/crafts/pending', {
+      const response = await axios.get('/api/crafts/pending', {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
@@ -35,7 +35,7 @@ const AdminDashboard = () => {
 
   const fetchOrders = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/checkout/admin/orders', {
+      const response = await axios.get('/api/checkout/admin/orders', {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
@@ -50,7 +50,7 @@ const AdminDashboard = () => {
 
   const handleApprove = async (craftId) => {
     try {
-      await axios.put(`http://localhost:5000/api/crafts/approve/${craftId}`, {}, {
+      await axios.put(`/api/crafts/approve/${craftId}`, {}, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
@@ -64,7 +64,7 @@ const AdminDashboard = () => {
 
   const handleReject = async (craftId) => {
     try {
-      await axios.put(`http://localhost:5000/api/crafts/reject/${craftId}`, {}, {
+      await axios.put(`/api/crafts/reject/${craftId}`, {}, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
@@ -78,7 +78,7 @@ const AdminDashboard = () => {
 
   const updateOrderStatus = async (orderId, updates) => {
     try {
-      await axios.put(`http://localhost:5000/api/checkout/orders/${orderId}/status`, updates, {
+      await axios.put(`/api/checkout/orders/${orderId}/status`, updates, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
@@ -125,7 +125,7 @@ const AdminDashboard = () => {
                 {pendingCrafts.map(craft => (
                   <div key={craft._id} className="craft-card">
                     <img 
-                      src={`http://localhost:5000${craft.imageUrl}`} 
+                      src={craft.imageUrl} 
                       alt={craft.itemName}
                       className="craft-image"
                     />

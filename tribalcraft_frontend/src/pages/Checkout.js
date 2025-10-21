@@ -36,7 +36,7 @@ const Checkout = () => {
 
   const fetchCart = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/cart', {
+      const response = await axios.get('/api/cart', {
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`
         }
@@ -98,7 +98,7 @@ const Checkout = () => {
     setSubmitting(true);
 
     try {
-      const response = await axios.post('http://localhost:5000/api/checkout/create-order', formData, {
+      const response = await axios.post('/api/checkout/create-order', formData, {
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`,
           'Content-Type': 'application/json'

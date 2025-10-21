@@ -23,7 +23,7 @@ const ProductDetails = () => {
         imageUrl = `/${imageUrl}`;
       }
 
-      await axios.post('http://localhost:5000/api/cart/add', {
+      await axios.post('/api/cart/add', {
         craftId: id.toString(),
         craftTitle: craft.title,
         craftPrice: craft.price,
