@@ -8,8 +8,9 @@ const AdminDashboard = () => {
   const { user, isAuthenticated } = useAuth();
   const [pendingCrafts, setPendingCrafts] = useState([]);
   const [orders, setOrders] = useState([]);
+  const [contacts, setContacts] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [activeTab, setActiveTab] = useState('crafts'); // 'crafts' | 'orders'
+  const [activeTab, setActiveTab] = useState('crafts'); // 'crafts' | 'orders' | 'contacts'
 
   useEffect(() => {
     if (!isAuthenticated || user?.role !== 'admin') {
@@ -18,6 +19,7 @@ const AdminDashboard = () => {
     }
     fetchPendingCrafts();
     fetchOrders();
+    fetchContacts();
   }, [isAuthenticated, user]);
 
   const fetchPendingCrafts = async () => {
@@ -45,6 +47,19 @@ const AdminDashboard = () => {
       console.error('Error fetching orders:', error);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const fetchContacts = async () => {
+    try {
+      const response = await axios.get('/api/contact/admin/submissions', {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+      });
+      setContacts(response.data);
+    } catch (error) {
+      console.error('Error fetching contacts:', error);
     }
   };
 
@@ -90,6 +105,37 @@ const AdminDashboard = () => {
     }
   };
 
+  const updateContactStatus = async (contactId, status, adminNotes = '') => {
+    try {
+      await axios.put(`/api/contact/admin/submissions/${contactId}/status`, {
+        status,
+        adminNotes
+      }, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+      });
+      toast.success('Contact status updated');
+      fetchContacts();
+    } catch (error) {
+      toast.error(error.response?.data?.message || 'Failed to update contact status');
+    }
+  };
+
+  const deleteContact = async (contactId) => {
+    try {
+      await axios.delete(`/api/contact/admin/submissions/${contactId}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+      });
+      toast.success('Contact submission deleted');
+      fetchContacts();
+    } catch (error) {
+      toast.error(error.response?.data?.message || 'Failed to delete contact');
+    }
+  };
+
   if (loading) return <div className="loading">Loading...</div>;
   if (!isAuthenticated || user?.role !== 'admin') {
     return <div className="loading">Access denied. Admins only.</div>;
@@ -112,6 +158,12 @@ const AdminDashboard = () => {
             onClick={() => setActiveTab('orders')}
           >
             Orders ({orders.length})
+          </button>
+          <button 
+            className={`admin-tab ${activeTab === 'contacts' ? 'active' : ''}`}
+            onClick={() => setActiveTab('contacts')}
+          >
+            Contacts ({contacts.length})
           </button>
         </div>
 
@@ -204,6 +256,53 @@ const AdminDashboard = () => {
                     ))}
                   </tbody>
                 </table>
+              </div>
+            )}
+          </>
+        )}
+
+        {activeTab === 'contacts' && (
+          <>
+            <h2>Contact Submissions ({contacts.length})</h2>
+            {contacts.length === 0 ? (
+              <p>No contact submissions found</p>
+            ) : (
+              <div className="contacts-list">
+                {contacts.map(contact => (
+                  <div key={contact._id} className="contact-card">
+                    <div className="contact-header">
+                      <h4>{contact.name}</h4>
+                      <span className={`status-badge ${contact.status}`}>
+                        {contact.status.toUpperCase()}
+                      </span>
+                    </div>
+                    <div className="contact-details">
+                      <p><strong>Email:</strong> {contact.email}</p>
+                      <p><strong>Message:</strong> {contact.message}</p>
+                      <p><strong>Submitted:</strong> {new Date(contact.createdAt).toLocaleString()}</p>
+                      {contact.adminNotes && (
+                        <p><strong>Admin Notes:</strong> {contact.adminNotes}</p>
+                      )}
+                    </div>
+                    <div className="contact-actions">
+                      <select
+                        value={contact.status}
+                        onChange={(e) => updateContactStatus(contact._id, e.target.value)}
+                      >
+                        <option value="new">New</option>
+                        <option value="read">Read</option>
+                        <option value="replied">Replied</option>
+                        <option value="closed">Closed</option>
+                      </select>
+                      <button 
+                        className="delete-btn"
+                        onClick={() => deleteContact(contact._id)}
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  </div>
+                ))}
               </div>
             )}
           </>

@@ -10,6 +10,8 @@ const Orders = () => {
   const { isAuthenticated } = useAuth();
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [showCancelModal, setShowCancelModal] = useState(false);
+  const [orderToCancel, setOrderToCancel] = useState(null);
 
   useEffect(() => {
     if (!isAuthenticated) {
@@ -66,19 +68,21 @@ const Orders = () => {
     return null;
   }
 
-  const handleCancelOrder = async (orderId) => {
-    // Show confirmation toast
-    const confirmed = window.confirm('Are you sure you want to cancel this order? This action cannot be undone.');
-    if (!confirmed) {
-      toast('Order cancellation cancelled');
-      return;
-    }
+  const handleCancelClick = (orderId) => {
+    setOrderToCancel(orderId);
+    setShowCancelModal(true);
+  };
 
+  const handleCancelConfirm = async () => {
+    if (!orderToCancel) return;
+
+    setShowCancelModal(false);
+    
     // Show loading toast
     const loadingToast = toast.loading('Cancelling order...');
 
     try {
-      await axios.put(`/api/checkout/orders/${orderId}/cancel`, {}, {
+      await axios.put(`/api/checkout/orders/${orderToCancel}/cancel`, {}, {
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`
         }
@@ -96,7 +100,15 @@ const Orders = () => {
       // Dismiss loading toast and show error
       toast.dismiss(loadingToast);
       toast.error('Failed to cancel order. Please try again.');
+    } finally {
+      setOrderToCancel(null);
     }
+  };
+
+  const handleCancelCancel = () => {
+    setShowCancelModal(false);
+    setOrderToCancel(null);
+    toast('Order cancellation cancelled');
   };
 
   if (loading) {
@@ -187,7 +199,7 @@ const Orders = () => {
                     {order.orderStatus === 'pending' && (
                       <button 
                         className="cancel-order-btn"
-                        onClick={() => handleCancelOrder(order._id)}
+                        onClick={() => handleCancelClick(order._id)}
                       >
                         Cancel Order
                       </button>
@@ -199,6 +211,30 @@ const Orders = () => {
           </div>
         )}
       </div>
+
+      {/* Confirmation Modal */}
+      {showCancelModal && (
+        <div className="modal-overlay">
+          <div className="modal-content">
+            <h3>Cancel Order</h3>
+            <p>Are you sure you want to cancel this order? This action cannot be undone.</p>
+            <div className="modal-actions">
+              <button 
+                className="cancel-btn"
+                onClick={handleCancelCancel}
+              >
+                Keep Order
+              </button>
+              <button 
+                className="confirm-btn"
+                onClick={handleCancelConfirm}
+              >
+                Cancel Order
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

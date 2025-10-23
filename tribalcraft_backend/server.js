@@ -20,6 +20,7 @@ app.use('/api/auth', require('./routes/auth'));
 app.use('/api/crafts', require('./routes/crafts'));
 app.use('/api/cart', require('./routes/cart'));
 app.use('/api/checkout', require('./routes/checkout'));
+app.use('/api/contact', require('./routes/contact'));
 
 // Serve static files from the React app build directory
 app.use(express.static(path.join(__dirname, '../tribalcraft_frontend/build')));
