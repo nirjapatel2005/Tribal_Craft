@@ -21,6 +21,7 @@ const Orders = () => {
 
   const fetchOrders = async () => {
     try {
+      setLoading(true);
       const response = await axios.get('/api/checkout/orders', {
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`
@@ -28,9 +29,14 @@ const Orders = () => {
       });
       setOrders(response.data);
       setLoading(false);
+      
+      // Show success toast if orders are loaded successfully
+      if (response.data.length > 0) {
+        toast.success(`Loaded ${response.data.length} order${response.data.length > 1 ? 's' : ''} successfully`);
+      }
     } catch (error) {
       console.error('Error fetching orders:', error);
-      toast.error('Failed to fetch orders');
+      toast.error('Failed to fetch orders. Please try again.');
       setLoading(false);
     }
   };
@@ -61,7 +67,12 @@ const Orders = () => {
   }
 
   if (loading) {
-    return <div className="loading">Loading orders...</div>;
+    return (
+      <div className="loading">
+        <div className="loading-spinner"></div>
+        <p>Loading your orders...</p>
+      </div>
+    );
   }
 
   return (
@@ -72,7 +83,20 @@ const Orders = () => {
         {orders.length === 0 ? (
           <div className="no-orders">
             <p>You haven't placed any orders yet.</p>
-            <button onClick={() => navigate('/buy-craft')} className="shop-now-btn">
+            <button 
+              onClick={() => {
+                toast('Redirecting to shop...', {
+                  icon: '🛍️',
+                  duration: 2000,
+                  style: {
+                    background: '#8B4513',
+                    color: '#fff',
+                  },
+                });
+                navigate('/buy-craft');
+              }} 
+              className="shop-now-btn"
+            >
               Shop Now
             </button>
           </div>
@@ -123,7 +147,17 @@ const Orders = () => {
                   <div className="order-actions">
                     <button 
                       className="view-details-btn"
-                      onClick={() => navigate(`/orders/${order._id}`)}
+                      onClick={() => {
+                        toast('Opening order details...', {
+                          icon: '👁️',
+                          duration: 2000,
+                          style: {
+                            background: '#007bff',
+                            color: '#fff',
+                          },
+                        });
+                        navigate(`/orders/${order._id}`);
+                      }}
                     >
                       View Details
                     </button>
@@ -145,19 +179,61 @@ const Orders = () => {
     </div>
   );
 
-  async function handleCancelOrder(orderId) {
+  const handleCancelOrder = async (orderId) => {
+    // Show confirmation toast
+    const confirmed = window.confirm('Are you sure you want to cancel this order? This action cannot be undone.');
+    if (!confirmed) {
+      toast('Order cancellation cancelled', {
+        icon: 'ℹ️',
+        style: {
+          background: '#3b82f6',
+          color: '#fff',
+        },
+      });
+      return;
+    }
+
+    // Show loading toast
+    const loadingToast = toast.loading('Cancelling order...', {
+      style: {
+        background: '#8B4513',
+        color: '#fff',
+      },
+    });
+
     try {
       await axios.put(`/api/checkout/orders/${orderId}/cancel`, {}, {
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`
         }
       });
-      toast.success('Order cancelled successfully');
-      fetchOrders(); // Refresh orders
+      
+      // Dismiss loading toast and show success
+      toast.dismiss(loadingToast);
+      toast.success('Order cancelled successfully!', {
+        duration: 4000,
+        style: {
+          background: '#10b981',
+          color: '#fff',
+        },
+      });
+      
+      // Refresh orders
+      await fetchOrders();
     } catch (error) {
-      toast.error('Failed to cancel order');
+      console.error('Error cancelling order:', error);
+      
+      // Dismiss loading toast and show error
+      toast.dismiss(loadingToast);
+      toast.error('Failed to cancel order. Please try again.', {
+        duration: 5000,
+        style: {
+          background: '#ef4444',
+          color: '#fff',
+        },
+      });
     }
-  }
+  };
 };
 
 export default Orders;
