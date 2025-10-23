@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import axios from 'axios';
+import toast from 'react-hot-toast';
 import './SellCraft.css';
 
 const SellCraft = () => {
@@ -53,7 +54,7 @@ const SellCraft = () => {
     e.preventDefault();
     
     if (!image) {
-      alert('Please select an image for your craft');
+      toast.error('Please select an image for your craft');
       return;
     }
 
@@ -77,7 +78,7 @@ const SellCraft = () => {
         }
       });
 
-      alert('Craft submitted successfully! It will be reviewed by our admin team.');
+      toast.success('Craft submitted successfully! It will be reviewed by our admin team.');
       
       // Reset form
       setFormData({
@@ -95,7 +96,7 @@ const SellCraft = () => {
       
       navigate('/');
     } catch (error) {
-      alert(error.response?.data?.message || 'Failed to submit craft');
+      toast.error(error.response?.data?.message || 'Failed to submit craft');
     } finally {
       setLoading(false);
     }

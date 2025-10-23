@@ -86,12 +86,7 @@ const Orders = () => {
             <button 
               onClick={() => {
                 toast('Redirecting to shop...', {
-                  icon: '🛍️',
                   duration: 2000,
-                  style: {
-                    background: '#8B4513',
-                    color: '#fff',
-                  },
                 });
                 navigate('/buy-craft');
               }} 
@@ -149,12 +144,7 @@ const Orders = () => {
                       className="view-details-btn"
                       onClick={() => {
                         toast('Opening order details...', {
-                          icon: '👁️',
                           duration: 2000,
-                          style: {
-                            background: '#007bff',
-                            color: '#fff',
-                          },
                         });
                         navigate(`/orders/${order._id}`);
                       }}
@@ -183,23 +173,12 @@ const Orders = () => {
     // Show confirmation toast
     const confirmed = window.confirm('Are you sure you want to cancel this order? This action cannot be undone.');
     if (!confirmed) {
-      toast('Order cancellation cancelled', {
-        icon: 'ℹ️',
-        style: {
-          background: '#3b82f6',
-          color: '#fff',
-        },
-      });
+      toast('Order cancellation cancelled');
       return;
     }
 
     // Show loading toast
-    const loadingToast = toast.loading('Cancelling order...', {
-      style: {
-        background: '#8B4513',
-        color: '#fff',
-      },
-    });
+    const loadingToast = toast.loading('Cancelling order...');
 
     try {
       await axios.put(`/api/checkout/orders/${orderId}/cancel`, {}, {
@@ -210,13 +189,7 @@ const Orders = () => {
       
       // Dismiss loading toast and show success
       toast.dismiss(loadingToast);
-      toast.success('Order cancelled successfully!', {
-        duration: 4000,
-        style: {
-          background: '#10b981',
-          color: '#fff',
-        },
-      });
+      toast.success('Order cancelled successfully!');
       
       // Refresh orders
       await fetchOrders();
@@ -225,13 +198,7 @@ const Orders = () => {
       
       // Dismiss loading toast and show error
       toast.dismiss(loadingToast);
-      toast.error('Failed to cancel order. Please try again.', {
-        duration: 5000,
-        style: {
-          background: '#ef4444',
-          color: '#fff',
-        },
-      });
+      toast.error('Failed to cancel order. Please try again.');
     }
   };
 };
