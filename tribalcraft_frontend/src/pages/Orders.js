@@ -66,6 +66,39 @@ const Orders = () => {
     return null;
   }
 
+  const handleCancelOrder = async (orderId) => {
+    // Show confirmation toast
+    const confirmed = window.confirm('Are you sure you want to cancel this order? This action cannot be undone.');
+    if (!confirmed) {
+      toast('Order cancellation cancelled');
+      return;
+    }
+
+    // Show loading toast
+    const loadingToast = toast.loading('Cancelling order...');
+
+    try {
+      await axios.put(`/api/checkout/orders/${orderId}/cancel`, {}, {
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+        }
+      });
+      
+      // Dismiss loading toast and show success
+      toast.dismiss(loadingToast);
+      toast.success('Order cancelled successfully!');
+      
+      // Refresh orders
+      await fetchOrders();
+    } catch (error) {
+      console.error('Error cancelling order:', error);
+      
+      // Dismiss loading toast and show error
+      toast.dismiss(loadingToast);
+      toast.error('Failed to cancel order. Please try again.');
+    }
+  };
+
   if (loading) {
     return (
       <div className="loading">
@@ -168,39 +201,6 @@ const Orders = () => {
       </div>
     </div>
   );
-
-  const handleCancelOrder = async (orderId) => {
-    // Show confirmation toast
-    const confirmed = window.confirm('Are you sure you want to cancel this order? This action cannot be undone.');
-    if (!confirmed) {
-      toast('Order cancellation cancelled');
-      return;
-    }
-
-    // Show loading toast
-    const loadingToast = toast.loading('Cancelling order...');
-
-    try {
-      await axios.put(`/api/checkout/orders/${orderId}/cancel`, {}, {
-        headers: {
-          'Authorization': `Bearer ${localStorage.getItem('token')}`
-        }
-      });
-      
-      // Dismiss loading toast and show success
-      toast.dismiss(loadingToast);
-      toast.success('Order cancelled successfully!');
-      
-      // Refresh orders
-      await fetchOrders();
-    } catch (error) {
-      console.error('Error cancelling order:', error);
-      
-      // Dismiss loading toast and show error
-      toast.dismiss(loadingToast);
-      toast.error('Failed to cancel order. Please try again.');
-    }
-  };
 };
 
 export default Orders;
