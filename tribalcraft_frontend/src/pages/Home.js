@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
+import api from '../config/axios';
 import './Home.css';
 
 const Home = () => {
@@ -93,7 +93,7 @@ const Home = () => {
   useEffect(() => {
     const fetchApprovedCrafts = async () => {
       try {
-        const response = await axios.get('/api/crafts/approved');
+        const response = await api.get('/api/crafts/approved');
         const craftsWithIds = response.data.map((craft, index) => ({
           id: tribalCrafts.length + index + 1,
           title: craft.itemName,

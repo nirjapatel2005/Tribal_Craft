@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 import toast from 'react-hot-toast';
+import api from '../config/axios';
 import './Contact.css';
 
 const Contact = () => {
@@ -29,7 +29,7 @@ const Contact = () => {
     setSubmitting(true);
 
     try {
-      const response = await axios.post('/api/contact/submit', formData);
+      const response = await api.post('/api/contact/submit', formData);
       
       toast.success(response.data.message);
       

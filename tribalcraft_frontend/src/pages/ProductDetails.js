@@ -1,8 +1,8 @@
 import React from 'react';
-import { useParams, Link, useNavigate } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
-import axios from 'axios';
 import toast from 'react-hot-toast';
+import { Link, useNavigate, useParams } from 'react-router-dom';
+import api from '../config/axios';
+import { useAuth } from '../context/AuthContext';
 import './ProductDetails.css';
 
 const ProductDetails = () => {
@@ -23,7 +23,7 @@ const ProductDetails = () => {
         imageUrl = `/${imageUrl}`;
       }
 
-      await axios.post('/api/cart/add', {
+      await api.post('/api/cart/add', {
         craftId: id.toString(),
         craftTitle: craft.title,
         craftPrice: craft.price,

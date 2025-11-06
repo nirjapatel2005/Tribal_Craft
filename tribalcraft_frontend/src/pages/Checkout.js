@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
-import axios from 'axios';
+import React, { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
+import api from '../config/axios';
+import { useAuth } from '../context/AuthContext';
 import './Checkout.css';
 
 const Checkout = () => {
@@ -36,7 +36,7 @@ const Checkout = () => {
 
   const fetchCart = async () => {
     try {
-      const response = await axios.get('/api/cart', {
+      const response = await api.get('/api/cart', {
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`
         }
@@ -98,7 +98,7 @@ const Checkout = () => {
     setSubmitting(true);
 
     try {
-      const response = await axios.post('/api/checkout/create-order', formData, {
+      const response = await api.post('/api/checkout/create-order', formData, {
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`,
           'Content-Type': 'application/json'

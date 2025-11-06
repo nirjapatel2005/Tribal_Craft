@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import axios from 'axios';
 import toast from 'react-hot-toast';
+import { Link, useNavigate } from 'react-router-dom';
+import api from '../config/axios';
 import { useAuth } from '../context/AuthContext';
 import './Login.css';
 
@@ -28,7 +28,7 @@ const Login = () => {
     e.preventDefault();
     
     try {
-      const response = await axios.post('/api/auth/login', {
+      const response = await api.post('/api/auth/login', {
         username: formData.username,
         email: formData.email,
         password: formData.password

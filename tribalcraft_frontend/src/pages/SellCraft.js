@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
-import axios from 'axios';
 import toast from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
+import api from '../config/axios';
+import { useAuth } from '../context/AuthContext';
 import './SellCraft.css';
 
 const SellCraft = () => {
@@ -71,7 +71,7 @@ const SellCraft = () => {
       // Append image
       formDataToSend.append('image', image);
 
-      const response = await axios.post('/api/crafts/sell', formDataToSend, {
+      const response = await api.post('/api/crafts/sell', formDataToSend, {
         headers: {
           'Content-Type': 'multipart/form-data',
           'Authorization': `Bearer ${localStorage.getItem('token')}`

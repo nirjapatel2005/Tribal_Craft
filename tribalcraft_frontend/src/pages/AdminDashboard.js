@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React, { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
+import api from '../config/axios';
 import { useAuth } from '../context/AuthContext';
 import './AdminDashboard.css';
 
@@ -24,7 +24,7 @@ const AdminDashboard = () => {
 
   const fetchPendingCrafts = async () => {
     try {
-      const response = await axios.get('/api/crafts/pending', {
+      const response = await api.get('/api/crafts/pending', {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
@@ -37,7 +37,7 @@ const AdminDashboard = () => {
 
   const fetchOrders = async () => {
     try {
-      const response = await axios.get('/api/checkout/admin/orders', {
+      const response = await api.get('/api/checkout/admin/orders', {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
@@ -52,7 +52,7 @@ const AdminDashboard = () => {
 
   const fetchContacts = async () => {
     try {
-      const response = await axios.get('/api/contact/admin/submissions', {
+      const response = await api.get('/api/contact/admin/submissions', {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
@@ -65,7 +65,7 @@ const AdminDashboard = () => {
 
   const handleApprove = async (craftId) => {
     try {
-      await axios.put(`/api/crafts/approve/${craftId}`, {}, {
+      await api.put(`/api/crafts/approve/${craftId}`, {}, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
@@ -79,7 +79,7 @@ const AdminDashboard = () => {
 
   const handleReject = async (craftId) => {
     try {
-      await axios.put(`/api/crafts/reject/${craftId}`, {}, {
+      await api.put(`/api/crafts/reject/${craftId}`, {}, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
@@ -93,7 +93,7 @@ const AdminDashboard = () => {
 
   const updateOrderStatus = async (orderId, updates) => {
     try {
-      await axios.put(`/api/checkout/orders/${orderId}/status`, updates, {
+      await api.put(`/api/checkout/orders/${orderId}/status`, updates, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
@@ -107,7 +107,7 @@ const AdminDashboard = () => {
 
   const updateContactStatus = async (contactId, status, adminNotes = '') => {
     try {
-      await axios.put(`/api/contact/admin/submissions/${contactId}/status`, {
+      await api.put(`/api/contact/admin/submissions/${contactId}/status`, {
         status,
         adminNotes
       }, {
@@ -124,7 +124,7 @@ const AdminDashboard = () => {
 
   const deleteContact = async (contactId) => {
     try {
-      await axios.delete(`/api/contact/admin/submissions/${contactId}`, {
+      await api.delete(`/api/contact/admin/submissions/${contactId}`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
         },

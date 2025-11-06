@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
-import axios from 'axios';
+import React, { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
+import api from '../config/axios';
+import { useAuth } from '../context/AuthContext';
 import './Orders.css';
 
 const Orders = () => {
@@ -24,7 +24,7 @@ const Orders = () => {
   const fetchOrders = async () => {
     try {
       setLoading(true);
-      const response = await axios.get('/api/checkout/orders', {
+      const response = await api.get('/api/checkout/orders', {
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`
         }
@@ -82,7 +82,7 @@ const Orders = () => {
     const loadingToast = toast.loading('Cancelling order...');
 
     try {
-      await axios.put(`/api/checkout/orders/${orderToCancel}/cancel`, {}, {
+      await api.put(`/api/checkout/orders/${orderToCancel}/cancel`, {}, {
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`
         }

@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
-import axios from 'axios';
+import React, { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
+import { Link, useNavigate } from 'react-router-dom';
+import api from '../config/axios';
+import { useAuth } from '../context/AuthContext';
 import './Cart.css';
 
 const Cart = () => {
@@ -21,7 +21,7 @@ const Cart = () => {
 
   const fetchCart = async () => {
     try {
-      const response = await axios.get('/api/cart', {
+      const response = await api.get('/api/cart', {
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`
         }
@@ -36,7 +36,7 @@ const Cart = () => {
 
   const removeFromCart = async (craftId) => {
     try {
-      await axios.delete(`/api/cart/remove/${craftId}`, {
+      await api.delete(`/api/cart/remove/${craftId}`, {
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`
         }
@@ -50,7 +50,7 @@ const Cart = () => {
 
   const clearCart = async () => {
     try {
-      await axios.delete('/api/cart/clear', {
+      await api.delete('/api/cart/clear', {
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`
         }

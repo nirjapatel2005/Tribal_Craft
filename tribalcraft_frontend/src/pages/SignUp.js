@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import axios from 'axios';
 import toast from 'react-hot-toast';
+import { Link, useNavigate } from 'react-router-dom';
+import api from '../config/axios';
 import { useAuth } from '../context/AuthContext';
 import './SignUp.css';
 
@@ -35,7 +35,7 @@ const SignUp = () => {
     }
 
     try {
-      const response = await axios.post('/api/auth/signup', {
+      const response = await api.post('/api/auth/signup', {
         username: formData.username,
         email: formData.email,
         phone: formData.phone,
