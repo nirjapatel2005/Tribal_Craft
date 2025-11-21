@@ -37,7 +37,7 @@ app.get(/^\/(?!api).*/, (req, res) => {
 });
 
 // MongoDB Connection
-const mongoURI = process.env.MONGODB_URI || 'mongodb://localhost:27017/tribalcraft';
+const mongoURI = process.env.MONGODB_URI;
 
 // Enhanced MongoDB connection options for better reliability
 const mongooseOptions = {
