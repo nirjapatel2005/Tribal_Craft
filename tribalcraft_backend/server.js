@@ -8,8 +8,40 @@ dotenv.config();
 
 const app = express();
 
+// CORS configuration for development and production
+const allowedOrigins = [
+  'http://localhost:3000', // React dev server
+  'http://localhost:5000', // Backend dev server
+  'https://tribal-craft.onrender.com', // Production URL
+];
+
+const corsOptions = {
+  origin: function (origin, callback) {
+    // Allow requests with no origin (like mobile apps, curl, or same-origin requests)
+    if (!origin) return callback(null, true);
+    
+    // In development, allow all localhost origins for flexibility
+    if (process.env.NODE_ENV !== 'production') {
+      // Allow localhost with any port in development
+      if (origin.startsWith('http://localhost:') || origin.startsWith('http://127.0.0.1:')) {
+        return callback(null, true);
+      }
+    }
+    
+    // In production, only allow specific origins
+    if (allowedOrigins.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error(`Not allowed by CORS. Origin: ${origin}`));
+    }
+  },
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+};
+
 // Middleware
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(express.json());
 
 // Serve static files from uploads directory
